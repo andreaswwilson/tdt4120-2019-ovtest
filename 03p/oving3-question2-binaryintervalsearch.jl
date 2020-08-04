@@ -2,8 +2,24 @@
 
 
 ## Du skal implementere denne funksjonen 
+function getMedian(list,coordinate)
 function binaryintervalsearch(x, delta, coordinate)
-    # todo
+    indexinterval = [-1, -1]
+    n = size(x,1)
+    median = (x[floor(Int,(n+1)/2),coordinate] + x[ceil(Int,(n+1)/2),coordinate])/2
+	bottom_interval = median - delta
+	top_interval = median + delta
+	middle = div(size(x,1),2)
+	for i in 1:size(x,1)
+		if (indexinterval[1] == -1) &&  (x[i,coordinate] >= bottom_interval && (x[i,coordinate] <= top_interval))
+			indexinterval[1] = i
+			indexinterval[2] = i
+		end
+		if (indexinterval[1] != -1 && x[i,coordinate] <= top_interval)
+			indexinterval[2] = i
+		end
+	end
+	(indexinterval[1],indexinterval[2])
 end
 
 
