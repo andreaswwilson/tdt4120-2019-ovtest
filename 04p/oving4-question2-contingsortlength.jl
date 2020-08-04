@@ -1,27 +1,26 @@
-
 ## Du skal implementere denne funksjonen 
 function countingsortlength(A)
-    # TODO 
+	# Må legge til 1 her pga den tomme strengen
+	# k er den lengste strengen vi har
+	k = maximum(length, A) + 1
+	count = zeros(Int64, k)
+	B = []
+	for i in 1:length(A)
+		push!(B, "")
+	end
+	# Count the occurences
+	for word in A
+		# Må legge til 1 her pga den tomme strengen
+		count[length(word) + 1] += 1
+	end
+	for i in 2:k
+		count[i] += count[i - 1]
+	end
+	for i in length(A):-1:1
+		index = length(A[i]) + 1
+		B[count[index]] = A[i]
+		count[index] -= 1
+	end
+
+	return B
 end
-
-
-
-
-
-### Tests ###
-# Disse testene blir kjør når du kjører filen
-# Du trenger ikke å endre noe her, men du kan eksperimentere! 
-
-printstyled("\n\n\n---------------\nKjører tester!!\n---------------\n"; color = :magenta)
-
-using Test
-@testset "Basic tests" begin
-    @test countingsortlength(["ccc", "bb", "a"]) == ["a", "bb", "ccc"]
-    @test countingsortlength(["aaa", "bb", "c"]) == ["c", "bb", "aaa"]
-    @test countingsortlength(["bb", "a", ""]) == ["", "a", "bb"] # Testen her sjekker om du kan sortere også med emtpy string
-    @test countingsortlength(["bbbb", "aa", "aaaa", "ccc"]) == ["aa", "ccc", "bbbb", "aaaa"] # Fra oppgaven
-end
-
-println("\nFungerte alt? Prøv å kjør koden i inginious!")
-println("Husk at disse testene ikke alltid sjekker alle edge-cases")
-println("---------------------------------------------------------\n\n")
