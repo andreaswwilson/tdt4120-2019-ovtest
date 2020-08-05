@@ -1,7 +1,7 @@
 ### Du skal implementere denne funksjonen ###
 function dnasimilarity(s1, s2)
-	# din kode
-end
+s1 == "" ? 0 : (s1[1] == s2[1])*1 + dnasimilarity(s1[2:end],s2[2:end])
+end 
 
 
 

@@ -21,10 +21,27 @@ import Base: ==
 function buildtree(dnasequences)
     root = Node()
     # Alle sekvenser har den tomme strengen som prefix:
-    root.count = length(dnasequences)
-
-    # Din kode
-
+	root.count = length(dnasequences)
+	# Din kode
+	function recursive_add_dna(currentNode, dna)
+		dna_chr = dna[1]
+		# If dna_chr exists, increase count
+		if haskey(currentNode.children,dna_chr)
+			currentNode.children[dna_chr].count += 1
+		# Add new node
+		else
+			push!(currentNode.children, dna_chr => Node(Dict{Char,Node}(),1))
+		end
+		# Repeat until dna is empty
+		dna = dna[2:end]
+		if dna != ""
+			recursive_add_dna(currentNode.children[dna_chr],dna)
+		end
+	end
+	# Call recursive_add_dna with all dna imput
+	for d in dnasequences
+		recursive_add_dna(root,d)
+	end
     return root
 end
 
@@ -49,16 +66,16 @@ tree4 = Node(Dict('A' => Node(Dict('G' => Node(Dict('T' => Node(Dict('A' => Node
 # Disse testene blir kjør når du kjører filen
 # Du trenger ikke å endre noe her, men du kan eksperimentere!
 
-printstyled("\n\n\n---------------\nKjører tester!!\n---------------\n"; color = :magenta)
+# printstyled("\n\n\n---------------\nKjører tester!!\n---------------\n"; color = :magenta)
 
 using Test
 @testset "Tester" begin
 	@test buildtree(dnasequences1) == tree1
 	@test buildtree(dnasequences2) == tree2
-    	@test buildtree(dnasequences3) == tree3
+    @test buildtree(dnasequences3) == tree3
 	@test buildtree(dnasequences4) == tree4
 end
 
-println("\nFungerte alt? Prøv å kjør koden i inginious!")
-println("Husk at disse testene ikke alltid sjekker alle edge-cases")
-println("---------------------------------------------------------\n\n")
+# println("\nFungerte alt? Prøv å kjør koden i inginious!")
+# println("Husk at disse testene ikke alltid sjekker alle edge-cases")
+# println("---------------------------------------------------------\n\n")
