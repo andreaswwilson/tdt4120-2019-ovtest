@@ -1,5 +1,12 @@
 function mincoinsgreedy(coins, value)
-    # din kode her
+  count = 0
+  while value > 0
+    coin = popfirst!(coins)
+    count += div(value,coin)
+    value -= div(value,coin) * coin
+
+  end
+  return count
 end
 
 ### Tester ###
