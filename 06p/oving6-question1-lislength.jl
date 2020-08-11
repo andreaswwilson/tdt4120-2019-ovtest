@@ -1,19 +1,23 @@
 ### Du skal implementere denne funksjonen ###
 function lislength(s)
-    mls = zeros(Int, size(s))
-    mls[1] = 1
-    for i = 2:length(s)
-        # Din kode her
-    end
-    return maximum(mls) # Returnerer det største tallet i listen
+    m = zeros(Int, size(s))
+    m[1] = 1
+	for i = 2:length(s)
+		for j in 1:i-1
+			if s[i] > s[j] && m[j] +1 > m[i]
+				m[i] = m[j] + 1
+			end
+		end
+		# Alle tall minst 1 i lengde
+		m[i] = max(m[i],1)
+	end
+    return maximum(m) # Returnerer det største tallet i listen
 end
-
-
 ### Tester ###
 # Disse testene blir kjør når du kjører filen
 # Du trenger ikke å endre noe her, men du kan eksperimentere!
 
-printstyled("\n\n\n---------------\nKjører tester!!\n---------------\n"; color = :magenta)
+# printstyled("\n\n\n---------------\nKjører tester!!\n---------------\n"; color = :magenta)
 
 using Test
 @testset "Tester" begin
@@ -25,6 +29,6 @@ using Test
 	@test lislength([441, 1000, 22, 678, 695, 0, 681, 956, 48, 587, 604, 857, 689, 346, 425, 513, 476, 917, 114, 43, 327, 172, 162, 76, 91, 869, 549, 883, 679, 812, 747, 862, 228, 368, 774, 838, 107, 738, 717, 25, 937, 927, 145, 44, 634, 557, 850, 965]) == 12
 end
 
-println("\nFungerte alt? Prøv å kjør koden i inginious!")
-println("Husk at disse testene ikke alltid sjekker alle edge-cases")
-println("---------------------------------------------------------\n\n")
+# println("\nFungerte alt? Prøv å kjør koden i inginious!")
+# println("Husk at disse testene ikke alltid sjekker alle edge-cases")
+# println("---------------------------------------------------------\n\n")
