@@ -15,24 +15,71 @@ function mazetonodelist(maze)
     # Vi lager en matrise nodearray med størrelse tilsvarende maze,
     # men med Node-objekter isteden
     nodearray = Array{Node}(undef, size(maze, 1), size(maze, 2))
-
+    count_one = 0
     for i in 1:size(maze, 1)
         for j in 1:size(maze, 2)
             # Fyll inn kode for å oppdatere nodearray
+	    nodearray[i,j] = Node(i,j)
+            if maze[i,j] == 1
+                count_one += 1
+            else
+                nodearray[i,j].floor = false
+            end
         end
-    end
 
+    end
+    n = size(maze,1)
+    m = size(maze,2)
     for i in 1:size(maze, 1)
         for j in 1:size(maze, 2)
             # Fyll inn kode for å oppdatere neighbors til hver node
             # (Husk at naboene alltid er rett over, rett under,
             #  rett til venstre og/eller rett til høyre)
+            
+            if maze[i, j] == 1
+                if i > 1 # up
+                    if maze[i - 1, j] == 1
+                        push!(nodearray[i, j].neighbors, nodearray[i - 1, j])
+                    end
+                end
+                if i < n # down
+                    if maze[i + 1, j] == 1
+                        push!(nodearray[i, j].neighbors, nodearray[i + 1, j])
+                    end
+                end
+                if j > 1 # left
+                    if maze[i, j - 1] == 1
+                        push!(nodearray[i, j].neighbors, nodearray[i, j - 1])
+                    end
+                end
+                if j < m # right
+                    if maze[i, j + 1] == 1
+                        push!(nodearray[i, j].neighbors, nodearray[i, j + 1])
+                    end
+                end
+            end
         end
     end
 
     # Fyll inn kode for å returnere en nodeliste ut ifra nodearray
+        nodelist = Array{Node}(undef, count_one)
+    k = 1
+    @inbounds for node in nodearray
+        if node.floor == true
+            nodelist[k] = node
+            k += 1
+        end
+    end
+    return nodelist
+
 end
 
+    maze = [0 0 0 0 0
+            0 1 1 1 0
+            0 1 0 0 0
+            0 1 1 1 0
+            0 0 0 0 0]
+    nodelist = mazetonodelist(maze)
 
 ### Tester ###
 # Disse testene blir kjør når du kjører filen
